@@ -1,0 +1,19 @@
+{
+  "name": "binance",
+  "version": "1.0.0",
+  "description": "binance api tests",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cli": "^1.0.1",
+    "json2csv": "^3.11.5",
+    "moment": "^2.20.1"
+  },
+  "scripts": {
+    "export": "babel-node index.js export"
+  }
+}
