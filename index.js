@@ -10,10 +10,18 @@ const options = cli.parse(cliOptions);
 // console.log('options: ', options);
 
 const action = cli.args[ACTION_ARG_INDEX];
-const symbols = options.symbols;
+// const symbols = options.symbols;
 
-console.log('action: ', action);
-console.log('symbols: ', symbols);
+// console.log('action: ', action);
+// console.log('symbols: ', symbols);
+//
+try {
+  const binanceApi = new BinanceApi(options);
+  binanceApi[action]();
+  // if exporting, this is analogous to: binanceApi.export()
+} catch (error) {
+  console.log('error: ', error);
+  console.log('cliOptions: ', cliOptions);
+}
 
-const binanceApi = new BinanceApi(symbols);
-binanceApi[action](); // if exporting, this is analogous to: binanceApi.export()
+console.log();

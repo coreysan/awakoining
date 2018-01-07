@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/coreysanford/.nvm/versions/node/v8.5.0/bin/node /usr/local/bin/yarn add cli
+  /Users/coreysanford/.nvm/versions/node/v8.5.0/bin/node /usr/local/bin/yarn run test
 
 PATH: 
   /usr/local/php5-7.1.1-20170213-100732/bin/:/Users/coreysanford/.nvm/versions/node/v8.5.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/composer
@@ -25,10 +25,13 @@ npm manifest:
       "babel-cli": "^6.26.0",
       "babel-preset-env": "^1.6.1",
       "babel-preset-es2015": "^6.24.1",
+      "cli": "^1.0.1",
+      "json2csv": "^3.11.5",
       "moment": "^2.20.1"
     },
     "scripts": {
-      "run": "babel-node test.js",
+      "export": "babel-node index.js export"
+      "test": "babel-node index.js test"
     }
   }
 
@@ -723,6 +726,19 @@ Lockfile:
     optionalDependencies:
       fsevents "^1.0.0"
   
+  cli-table@^0.3.1:
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/cli-table/-/cli-table-0.3.1.tgz#f53b05266a8b1a0b934b3d0821e6e2dc5914ae23"
+    dependencies:
+      colors "1.0.3"
+  
+  cli@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/cli/-/cli-1.0.1.tgz#22817534f24bfa4950c34d532d48ecbc621b8c14"
+    dependencies:
+      exit "0.1.2"
+      glob "^7.1.1"
+  
   co@^4.6.0:
     version "4.6.0"
     resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -731,13 +747,17 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   
+  colors@1.0.3:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
+  
   combined-stream@^1.0.5, combined-stream@~1.0.5:
     version "1.0.5"
     resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.5.tgz#938370a57b4a51dea2c77c15d5c5fdf895164009"
     dependencies:
       delayed-stream "~1.0.0"
   
-  commander@^2.11.0:
+  commander@^2.11.0, commander@^2.8.1:
     version "2.12.2"
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
   
@@ -831,6 +851,10 @@ Lockfile:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
   
+  exit@0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
+  
   expand-brackets@^0.1.4:
     version "0.1.5"
     resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-0.1.5.tgz#df07284e342a807cd733ac5af72411e581d1177b"
@@ -874,6 +898,12 @@ Lockfile:
       randomatic "^1.1.3"
       repeat-element "^1.1.2"
       repeat-string "^1.5.2"
+  
+  flat@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/flat/-/flat-4.0.0.tgz#3abc7f3b588e64ce77dc42fd59aa35806622fea8"
+    dependencies:
+      is-buffer "~1.1.5"
   
   follow-redirects@^1.2.5:
     version "1.2.6"
@@ -967,7 +997,7 @@ Lockfile:
     dependencies:
       is-glob "^2.0.0"
   
-  glob@^7.0.5, glob@^7.1.2:
+  glob@^7.0.5, glob@^7.1.1, glob@^7.1.2:
     version "7.1.2"
     resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
     dependencies:
@@ -1062,7 +1092,7 @@ Lockfile:
     dependencies:
       binary-extensions "^1.0.0"
   
-  is-buffer@^1.1.5:
+  is-buffer@^1.1.5, is-buffer@~1.1.5:
     version "1.1.6"
     resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   
@@ -1170,6 +1200,21 @@ Lockfile:
     version "5.0.1"
     resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   
+  json2csv@^3.11.5:
+    version "3.11.5"
+    resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-3.11.5.tgz#088006c3b5c06425a48cb7326ca712a6f8661417"
+    dependencies:
+      cli-table "^0.3.1"
+      commander "^2.8.1"
+      debug "^3.1.0"
+      flat "^4.0.0"
+      lodash.clonedeep "^4.5.0"
+      lodash.flatten "^4.4.0"
+      lodash.get "^4.4.0"
+      lodash.set "^4.3.0"
+      lodash.uniq "^4.5.0"
+      path-is-absolute "^1.0.0"
+  
   json5@^0.5.1:
     version "0.5.1"
     resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
@@ -1198,6 +1243,26 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-4.0.0.tgz#20813df3d712928b207378691a45066fae72dd57"
     dependencies:
       is-buffer "^1.1.5"
+  
+  lodash.clonedeep@^4.5.0:
+    version "4.5.0"
+    resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+  
+  lodash.flatten@^4.4.0:
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  
+  lodash.get@^4.4.0:
+    version "4.4.2"
+    resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  
+  lodash.set@^4.3.0:
+    version "4.3.2"
+    resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  
+  lodash.uniq@^4.5.0:
+    version "4.5.0"
+    resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   
   lodash@^4.17.4:
     version "4.17.4"
@@ -1696,7 +1761,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
 Trace: 
-  SyntaxError: /Users/coreysanford/Documents/programming/projects/binance/package.json: Unexpected token } in JSON at position 348
+  SyntaxError: /Users/coreysanford/Documents/programming/projects/awakoining/package.json: Unexpected string in JSON at position 408
       at JSON.parse (<anonymous>)
       at /usr/local/lib/node_modules/yarn/lib/cli.js:797:57
       at Generator.next (<anonymous>)

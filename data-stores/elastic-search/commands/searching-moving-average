@@ -1,0 +1,80 @@
+
+DELETE /candlestick?pretty
+
+PUT /candlestick
+
+POST /candlestick/doc/_bulk?pretty
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515379860000,"openPrice": 0.00700100,"highPrice": 0.00700100,"lowPrice": 0.00700000,"closePrice": 0.00700000,"volume": 28.66000000,"closeTime": 1515379919999,"quoteAssetVolume": 0.20063866,"numberOfTrades": 2,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515379920000,"openPrice": 0.00699200,"highPrice": 0.00699200,"lowPrice": 0.00698600,"closePrice": 0.00698600,"volume": 63.00000000,"closeTime": 1515379979999,"quoteAssetVolume": 0.44047800,"numberOfTrades": 3,"takerBuyBaseAssetVolume": 63.00000000,"takerBuyQuoteAssetVolume": 0.44047800,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515379980000,"openPrice": 0.00697400,"highPrice": 0.00697500,"lowPrice": 0.00697400,"closePrice": 0.00697500,"volume": 232.12000000,"closeTime": 1515380039999,"quoteAssetVolume": 1.61899598,"numberOfTrades": 3,"takerBuyBaseAssetVolume": 232.12000000,"takerBuyQuoteAssetVolume": 1.61899598,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380040000,"openPrice": 0.00697500,"highPrice": 0.00697500,"lowPrice": 0.00697500,"closePrice": 0.00697500,"volume": 0.00000000,"closeTime": 1515380099999,"quoteAssetVolume": 0.00000000,"numberOfTrades": 0,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380100000,"openPrice": 0.00697100,"highPrice": 0.00698200,"lowPrice": 0.00697100,"closePrice": 0.00698200,"volume": 847.20000000,"closeTime": 1515380159999,"quoteAssetVolume": 5.91288893,"numberOfTrades": 10,"takerBuyBaseAssetVolume": 847.20000000,"takerBuyQuoteAssetVolume": 5.91288893,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380160000,"openPrice": 0.00689800,"highPrice": 0.00689800,"lowPrice": 0.00689700,"closePrice": 0.00689700,"volume": 14.97000000,"closeTime": 1515380219999,"quoteAssetVolume": 0.10326239,"numberOfTrades": 3,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380220000,"openPrice": 0.00689700,"highPrice": 0.00689700,"lowPrice": 0.00689700,"closePrice": 0.00689700,"volume": 0.00000000,"closeTime": 1515380279999,"quoteAssetVolume": 0.00000000,"numberOfTrades": 0,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380280000,"openPrice": 0.00714100,"highPrice": 0.00714100,"lowPrice": 0.00693000,"closePrice": 0.00693000,"volume": 225.87000000,"closeTime": 1515380339999,"quoteAssetVolume": 1.56876340,"numberOfTrades": 7,"takerBuyBaseAssetVolume": 15.00000000,"takerBuyQuoteAssetVolume": 0.10711500,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380340000,"openPrice": 0.00714000,"highPrice": 0.00714000,"lowPrice": 0.00714000,"closePrice": 0.00714000,"volume": 44.00000000,"closeTime": 1515380399999,"quoteAssetVolume": 0.31416000,"numberOfTrades": 2,"takerBuyBaseAssetVolume": 44.00000000,"takerBuyQuoteAssetVolume": 0.31416000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380400000,"openPrice": 0.00714100,"highPrice": 0.00728700,"lowPrice": 0.00714100,"closePrice": 0.00728500,"volume": 180.05000000,"closeTime": 1515380459999,"quoteAssetVolume": 1.29392543,"numberOfTrades": 9,"takerBuyBaseAssetVolume": 180.05000000,"takerBuyQuoteAssetVolume": 1.29392543,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380460000,"openPrice": 0.00710000,"highPrice": 0.00710000,"lowPrice": 0.00710000,"closePrice": 0.00710000,"volume": 8.46000000,"closeTime": 1515380519999,"quoteAssetVolume": 0.06006600,"numberOfTrades": 1,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380520000,"openPrice": 0.00710000,"highPrice": 0.00710000,"lowPrice": 0.00710000,"closePrice": 0.00710000,"volume": 0.00000000,"closeTime": 1515380579999,"quoteAssetVolume": 0.00000000,"numberOfTrades": 0,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380580000,"openPrice": 0.00725000,"highPrice": 0.00728200,"lowPrice": 0.00725000,"closePrice": 0.00728200,"volume": 500.00000000,"closeTime": 1515380639999,"quoteAssetVolume": 3.64055054,"numberOfTrades": 5,"takerBuyBaseAssetVolume": 500.00000000,"takerBuyQuoteAssetVolume": 3.64055054,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380640000,"openPrice": 0.00728200,"highPrice": 0.00728200,"lowPrice": 0.00703400,"closePrice": 0.00703400,"volume": 80.60000000,"closeTime": 1515380699999,"quoteAssetVolume": 0.57890112,"numberOfTrades": 5,"takerBuyBaseAssetVolume": 15.68000000,"takerBuyQuoteAssetVolume": 0.11418176,"ignored": 0 }
+{"index":{"_index":"candlestick"}}
+{ "openTime": 1515380700000,"openPrice": 0.00705200,"highPrice": 0.00705200,"lowPrice": 0.00705200,"closePrice": 0.00705200,"volume": 11.74000000,"closeTime": 1515380759999,"quoteAssetVolume": 0.08279048,"numberOfTrades": 1,"takerBuyBaseAssetVolume": 0.00000000,"takerBuyQuoteAssetVolume": 0.00000000,"ignored": 0 }
+
+
+GET /_cat/indices?v
+
+GET /bank/_search?q=*&sort=account_number:asc&pretty
+
+GET /candlestick/_search?q=*&sort=openTime:asc&pretty
+# equivalent to...
+GET /candlestick/_search
+{
+  "query": { "match_all": {} },
+  "sort": [
+    { "openTime": "asc" }
+  ]
+}
+
+# MOVING AVERAGE
+POST /candlestick/_search
+{
+    "size": 5,
+    "_source": ["volume", "openTime"],
+    "sort": [
+      { "openTime": "asc" }
+    ],
+    "aggs": {
+        "timestamps":{
+            "histogram":{
+                "field":"openTime",
+                "interval":120000
+            },
+            "aggs":{
+                "the_sum":{
+                    "sum":{ "field": "volume" }
+                },
+                "the_movavg":{
+                    "moving_avg":{
+                      "buckets_path": "the_sum",
+                      "window": 2
+                    }
+                }
+            }
+        }
+    }
+}

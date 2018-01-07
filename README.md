@@ -1,18 +1,27 @@
 # Requirements
 - Install `nodejs` and `yarn` latest versions on your Mac
-  Visit the official sites to see how.
+  - Visit the official sites to see how.
+- [Install elastic search](https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html)
+  - `brew install elasticsearch`
+- [Install Kibana](https://www.elastic.co/downloads/kibana) (Elastic Search visualization)
+  - Follow Kibana installation instructions
 
 # To get running:
-- Copy `credentials.example.js` to `credentials.js` and
-  change details to match your API details. KEEP THESE SECRET!
-- Use the terminal and `cd` to the repo
+- Copy `credentials.example.js` to `credentials.js` and change details to match your API details.
+  - KEEP THESE SECRET!
+- Use the terminal and `cd to/awakoining`
 - Run `yarn` to install the project dependencies
+- Start elastic search
+  - `brew services start elasticsearch`
+- Start kibana: `open /your/path/to/kibana/bin/kibana`
+  - Open [kibana at http://localhost:5601/](http://localhost:5601/)
 
 # Usage
-- Run `yarn test` to ping the API and verify connectivity
-- Run `yarn run export [Symbol A]/[Symbol B]` to export the last 500 candlesticks for those symbols
+- `yarn run ping` to ping the API and verify connectivity
+- `yarn run export -s [Symbol A]/[Symbol B] --startTime "2017-01-01 09:30:00` to export the last 500 candlesticks for those symbols from that startTime to now
   - Where [Symbol A] is the 3-digit ticker symbol for the coin you're interested
   - And [Symbol B] is its trading pair
+  - Get all candlesticks since  January 1st 2017 at 9:30am
   - e.g. `yarn run export ETH/BTC` to get the candlesticks for ETH as traded with BTC
 
 # Project Architecture
@@ -53,8 +62,8 @@ The following states exist in the script:
 The algorithm begins here:
 1. Get the candlesticks over some interval `I`, and scan for a dormancy period `DP`.
     Dormancy period is defined as follows, relative to the current price:
-    - No swings of > `V` (5%?) within the `DP`
-    - The `V` in last ~10% of the `DP` is < the average `V` throughout
+    - No swings of greater than `V` (5%?) within the `DP`
+    - The `V` in last ~10% of the `DP` is less than the average `V` throughout
       (The line-of-best-fit may be of either slope up or down, no matter)
 
 ### Dormancy
@@ -68,14 +77,15 @@ When a `DP` is found, the coin goes into `watch` mode. and `MaxV` and `MinV` are
 `Pz - Price zero` is the price we have launched from, also known as the high of the bullish candlestick-zero `Cz`
 `SL - Stop Limit` is the trailing stop limit.
 `Q  - Quantity`, quantity
-1. Given some `Cz` that breaks the `MaxV`, we place a buy order for some `Q` purchased with Ethereum.
-    For example, suppose a `Cz` breaks out of its `DP` and establishes a price of .100 ETH. We buy at this price `Pz`.
-    - Set a sell limit at `Pz - 1%` with order price `Pz - 1.5%` for the same `Q` we purchased with.
-      - If the next candlestick is bearish, we may initiate the sell order immediately and lose 1.5%.
-      - If the next candlestick is bullish, we will hold and ride the rise, entering the next state.
+Given some `Cz` that breaks the `MaxV`, we place a buy order for some `Q` purchased with Ethereum.
+
+For example, suppose a `Cz` breaks out of its `DP` and establishes a price of .100 ETH. We buy at this price `Pz`.
+  - Set a sell limit at `Pz - 1%` with order price `Pz - 1.5%` for the same `Q` we purchased with.
+    - If the next candlestick is bearish, we may initiate the sell order immediately and lose 1.5%.
+    - If the next candlestick is bullish, we will hold and ride the rise, entering the next state.
 
 #### Protect
-Assuming our stock is rising, we enter *Protect State*. Here, we seek to preserve some of the gains acquired during this upturn.
+Assuming our stock is rising, we enter the *Protect State*. Here, we seek to preserve some of the gains acquired during this upturn.
   - With the first trend-breaking candlestick, `Cz`, we purchase at price `Pz` and set sell limits as outlined above.
   - Let's take the following concrete numbers:
     - `Pz` = *0.100 ETH*
@@ -131,3 +141,104 @@ Sold:
 - Use color for readability
 - Interface should refresh in-place rather than console-log
 - Columns should be aligned (pad each string section with spaces)
+See this great module:
+https://github.com/yaronn/blessed-contrib#table
+
+
+# Using Elasic Search (ES)
+Note that you interact with ES through Kibana (see below)
+
+# Using Kibana
+Use the [kibana console](http://localhost:5601/app/kibana#/dev_tools/console) for most interactions
+
+```
+# Create and list candlestick index
+PUT /candlestick?pretty
+GET /_cat/indices?v
+```
+
+```
+# Delete the candlestick index, show it's deleted, then put it back
+DELETE /candlestick?pretty
+GET /_cat/indices?v
+PUT /candlestick?pretty
+```
+
+```
+# Put a doc in the index
+PUT /candlestick/doc/1?pretty
+{
+  "openTime": 1515260700000,
+  "openPrice": "0.00716500",
+  "highPrice": "0.00716500",
+  "lowPrice": "0.00716500",
+  "closePrice": "0.00716500",
+  "volume": "44.00000000",
+  "closeTime": 1515260759999,
+  "quoteAssetVolume": "0.31526000",
+  "numberOfTrades": 1,
+  "takerBuyBaseAssetVolume": "0.00000000",
+  "takerBuyQuoteAssetVolume": "0.00000000",
+  "ignored": "0"
+}
+```
+
+```
+# Get that newly created doc:
+GET /candlestick/doc/1?pretty
+
+response:
+{
+  "_index": "candlestick",
+  "_type": "doc",
+  "_id": "1",
+  "_version": 1,
+  "found": true,
+  "_source": {
+    "openTime": 1515260700000,
+    "openPrice": "0.00716500",
+    "highPrice": "0.00716500",
+    "lowPrice": "0.00716500",
+    "closePrice": "0.00716500",
+    "volume": "44.00000000",
+    "closeTime": 1515260759999,
+    "quoteAssetVolume": "0.31526000",
+    "numberOfTrades": 1,
+    "takerBuyBaseAssetVolume": "0.00000000",
+    "takerBuyQuoteAssetVolume": "0.00000000",
+    "ignored": "0"
+  }
+}
+```
+
+Bulk insert a couple:
+```
+POST /candlestick/doc/_bulk
+{ "index" : { "_index" : "candlestick" } }
+{ "openTime": 1515260700003 }
+{ "index" : { "_index" : "candlestick"} }
+{ "openTime": 1515260700004 }
+```
+
+Read more about in the [ES docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/_modifying_your_data.html)!
+
+## Troubleshooting ES/Kibana Errors
+If you get an error like this:
+```
+({
+  "type"=>"cluster_block_exception",
+  "reason"=>"blocked by: [FORBIDDEN/12/index read-only / allow delete (api)
+])
+```
+
+Then you'll have to run this in the [kibana console](http://localhost:5601/app/kibana#/dev_tools/console) change some settings:
+```
+PUT candlestick/_settings
+{
+  "index": {
+    "blocks": {
+      "read_only_allow_delete": "false"
+    }
+  }
+}
+```
