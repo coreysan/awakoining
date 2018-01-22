@@ -3,24 +3,39 @@ import { DataStore } from '../data-store';
 
 var client = new elasticsearch.Client({
   host: 'localhost:9200',
-  log: 'trace'
+  // log: 'trace' // removed to hide output
 });
 
 export class ElasticSearch extends DataStore {
-
-  // constructor() {
-    // this.symbols,
-    // this._interval(),
-    // this.startTime
-  // }
 
   _setDestinationName() {
     return 'Elastic Search';
   }
 
-  _start() {
-    // clear all candlesticks with this symbol & interval
+  clearData() {
+    // clear all candlesticks with this symbol & interval before reinserting
     client.deleteByQuery({
+      index: 'candlestick',
+      body: {
+        query: {
+          filter: {
+            must: [
+              { match: { symbols: this.symbols } },
+              { match: { interval: this.interval } },
+            ],
+          },
+        }
+      },
+    }).then((results) => {
+      // console.log('Results from delete: ', results);
+    }).catch((error) => {
+      console.log('error deleting ES data: ', error);
+      throw error;
+    });
+  }
+
+  getData() {
+    return client.search({
       index: 'candlestick',
       body: {
         query: {
@@ -32,19 +47,18 @@ export class ElasticSearch extends DataStore {
           },
         }
       },
-    }).then((results) => {
-      console.log('results from delete: ', results);
-    }).catch((error) => {
-      console.log('error: ', error);
+    })
+    .then((response) =>  response )
+    .catch((error) => {
+      console.log(`Error getting ES data for ${this.symbols} on ${this.interval}: `, error);
       throw error;
     });
   }
 
   /**
-   *
+   * Add some candlesticks to ES
    */
   add(candlesticks, isFirstRun) {
-
     const elasticData = [];
     candlesticks.forEach((candlestick) => {
       elasticData.push({ index:  { _index: 'candlestick', _type: 'doc' } });
@@ -54,8 +68,6 @@ export class ElasticSearch extends DataStore {
         interval: this.interval,
       });
     });
-
-    console.log('elasticData: ', elasticData);
 
     client.bulk({
       body: elasticData

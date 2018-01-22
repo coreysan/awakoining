@@ -2,13 +2,11 @@ import colors from 'colors';
 
 export class DataStore {
 
-  constructor(symbols, interval, startTimestamp) {
+  constructor(symbols, interval) {
     this.symbols = symbols;
     this.interval = interval;
-    this.startTimestamp = startTimestamp;
     this.totalWritten = 0;
     this._setDestinationName();
-    this._start();
   }
 
   _start() {
@@ -37,7 +35,7 @@ export class DataStore {
   }
 
   _finishStorage() {
-    console.log('. Done ' + `✓`.green);
+    console.log('Done ' + `✓`.green);
     // console.log(`Wrote ${this.totalWritten} to ${this.destinationName}`.green);
     console.log();
   }

@@ -50,6 +50,8 @@ GET /candlestick/_search
   ]
 }
 
+
+
 # MOVING AVERAGE
 POST /candlestick/_search
 {
@@ -78,3 +80,4 @@ POST /candlestick/_search
         }
     }
 }
+

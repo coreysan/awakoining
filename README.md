@@ -6,7 +6,7 @@
 - [Install Kibana](https://www.elastic.co/downloads/kibana) (Elastic Search visualization)
   - Follow Kibana installation instructions
 
-# To get running:
+# To get running
 - Copy `credentials.example.js` to `credentials.js` and change details to match your API details.
   - KEEP THESE SECRET!
 - Use the terminal and `cd to/awakoining`
@@ -18,11 +18,13 @@
 
 # Usage
 - `yarn run ping` to ping the API and verify connectivity
-- `yarn run export -s [Symbol A]/[Symbol B] --startTime "2017-01-01 09:30:00` to export the last 500 candlesticks for those symbols from that startTime to now
+- `yarn run export -s [Symbol A]/[Symbol B] --startTime "2018-01-10 09:30:00"` to export the last 500 candlesticks for those symbols from that startTime to now
   - Where [Symbol A] is the 3-digit ticker symbol for the coin you're interested
   - And [Symbol B] is its trading pair
   - Get all candlesticks since  January 1st 2017 at 9:30am
   - e.g. `yarn run export ETH/BTC` to get the candlesticks for ETH as traded with BTC
+- `yarn run store -s [Symbol A]/[Symbol B] --startTime "2018-01-10 09:30:00"` to populate ElasticSearch with the candlesticks since x time
+- `yarn run store-all --startTime "2018-01-10 09:30:00"` to populate ElasticSearch with the candlesticks since x time
 
 # Project Architecture
 1. Execution begins in index.js, and interprets the command line arguments.
@@ -36,7 +38,7 @@ Cryptocurrencies sometimes enter a period of stabilization before exploding upwa
                            /
 -__-_                     /
      --__                /
-         -_-___-_-^--_--^
+         -_-___-_-^--_--'
 ```
 
 The goal of this project is to scan for coins in a dormant period, and await an upturn.
@@ -60,7 +62,7 @@ To begin, the following variables are used:
 The following states exist in the script:
 ### Analysis
 The algorithm begins here:
-1. Get the candlesticks over some interval `I`, and scan for a dormancy period `DP`.
+1. Get the candlesticks over some period, and scan each window for a dormancy period `DP`.
     Dormancy period is defined as follows, relative to the current price:
     - No swings of greater than `V` (5%?) within the `DP`
     - The `V` in last ~10% of the `DP` is less than the average `V` throughout
@@ -220,6 +222,56 @@ POST /candlestick/doc/_bulk
 { "openTime": 1515260700004 }
 ```
 
+To get results/search:
+```
+GET /candlestick/_search
+```
+
+To calculate a moving average (*broken rolling window*)
+```
+GET candlestick/_search?size=0
+{
+  "sort": [
+      { "openTime": "asc" }
+  ],
+  "aggs": {
+    "histogram_by_date": {
+      "date_histogram": {
+        "field":     "openTime",
+        "interval":  "2m"
+      },
+      "aggs":{
+        "the_sum":{
+          "sum":{ "field": "volume" }
+        },
+        "the_movavg":{
+          "moving_avg":{
+            "buckets_path": "the_sum",
+            "window": 3
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+*Search for candlesticks of a certain symbol/interval*
+```
+POST /candlestick/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "term": { "symbols.keyword": "NEOETH"}},
+        { "term": { "interval": "15m" }}
+      ]
+    }
+  }
+}
+```
+
+
 Read more about in the [ES docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/_modifying_your_data.html)!
 
 ## Troubleshooting ES/Kibana Errors
@@ -241,4 +293,38 @@ PUT candlestick/_settings
     }
   }
 }
+```
+
+## Changing Config Settings
+To find where your config settings live:
+```
+$ brew info elasticsearch
+elasticsearch: stable 6.1.1, HEAD
+Distributed search & analytics engine
+https://www.elastic.co/products/elasticsearch
+/usr/local/Cellar/elasticsearch/5.5.2 (103 files, 35.6MB)
+  Built from source on 2017-09-08 at 23:48:40
+/usr/local/Cellar/elasticsearch/6.1.1 (107 files, 30.2MB) *
+  Built from source on 2018-01-07 at 22:03:51
+From: https://github.com/Homebrew/homebrew-core/blob/master/Formula/elasticsearch.rb
+==> Requirements
+Required: java = 1.8 ✔
+==> Caveats
+Data:    /usr/local/var/lib/elasticsearch/elasticsearch_coreysanford/
+Logs:    /usr/local/var/log/elasticsearch/elasticsearch_coreysanford.log
+Plugins: /usr/local/var/elasticsearch/plugins/
+Config:  /usr/local/etc/elasticsearch/
+```
+
+The last line above points to `/user/local/etc/elasticsearch/`
+where you'll find an `elasticsearch.yml` file.
+
+### To Enable CORS
+Add this to the config you found above:
+```
+# ENABLE CORS
+http.cors.enabled : true
+http.cors.allow-origin : "*"
+http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length
 ```

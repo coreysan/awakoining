@@ -1,5 +1,6 @@
 import cli from 'cli'
-import { BinanceApi } from './binance-api/binance-api';
+import consoleTable from 'console.table';
+import { Operator } from './operator/operator';
 import cliOptions from './cli/cli-options';
 
 const ACTION_ARG_INDEX = 0;
@@ -14,11 +15,10 @@ const action = cli.args[ACTION_ARG_INDEX];
 
 // console.log('action: ', action);
 // console.log('symbols: ', symbols);
-//
 try {
-  const binanceApi = new BinanceApi(options);
-  binanceApi[action]();
-  // if exporting, this is analogous to: binanceApi.export()
+  const operator = new Operator(options);
+  operator[action]();
+  // if exporting, this is analogous to: operator.export()
 } catch (error) {
   console.log('error: ', error);
   console.log('cliOptions: ', cliOptions);

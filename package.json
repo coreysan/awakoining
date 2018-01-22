@@ -1,5 +1,5 @@
 {
-  "name": "binance",
+  "name": "Awakoining",
   "version": "1.0.0",
   "description": "Join crypto moon launches",
   "main": "index.js",
@@ -10,15 +10,19 @@
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
+    "chalk": "^2.3.0",
     "cli": "^1.0.1",
     "colors": "^1.1.2",
+    "console.table": "^0.10.0",
     "elasticsearch": "^14.0.0",
     "json2csv": "^3.11.5",
     "moment": "^2.20.1"
   },
   "scripts": {
+    "analyze": "babel-node index.js analyze",
     "export": "babel-node index.js export",
+    "ping": "babel-node index.js ping",
     "store": "babel-node index.js store",
-    "ping": "babel-node index.js ping"
+    "store-all": "babel-node index.js storeAll"
   }
 }
