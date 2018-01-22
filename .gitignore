@@ -1,9 +1,11 @@
 
+node_modules/
+
 todo.md
 
 # old location
-crednetials.js
+credentials.js
 # new location
-authentication/credentials.js
+apis/binance/authentication/credentials.js
 
 csv/exports/*
