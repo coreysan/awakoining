@@ -28,4 +28,7 @@ export class Table {
     setInterval(generateTable, 3000);
   }
 
+  // todo cs: keep track of data in the table, allow ammendments, additions, etc.
+  //
+
 } // class

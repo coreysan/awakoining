@@ -23,4 +23,6 @@ export class Log {
     }, 500)
   }
 
+  // todo cs: functions for adding to the log
+
 } // class
