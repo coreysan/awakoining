@@ -18,7 +18,7 @@ export class ElasticSearch extends DataStore {
       index: 'candlestick',
       body: {
         query: {
-          filter: {
+          bool: {
             must: [
               { match: { symbols: this.symbols } },
               { match: { interval: this.interval } },
@@ -29,7 +29,7 @@ export class ElasticSearch extends DataStore {
     }).then((results) => {
       // console.log('Results from delete: ', results);
     }).catch((error) => {
-      console.log('error deleting ES data: ', error);
+      console.log('error deleting ES data: '.red, error);
       throw error;
     });
   }

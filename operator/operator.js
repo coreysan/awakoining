@@ -1,7 +1,9 @@
 import moment from 'moment';
+import color from 'color';
 
 import { Analyzer } from '../analyzer/analyzer';
 import { Binance } from '../apis/binance';
+import { Gui } from './gui';
 import { CsvWriter } from '../data-stores/csv/csv-writer';
 import { Interval } from './interval';
 import { ElasticSearch } from '../data-stores/elastic-search/elastic-search';
@@ -29,11 +31,20 @@ export class Operator  {
     }
   }
 
+  gui() {
+    this.gui = new Gui;
+  }
+
   /**
    * Ping the API
    */
   async ping() {
-    const response = await this.api.ping();
+    try {
+      const response = await this.api.ping();
+    } catch (error) {
+      console.log('Error pinging server: '.red, error);
+      throw error;
+    }
     console.log('Status: ', `${response.status} ${response.statusText}\n`);
   }
 
@@ -44,14 +55,13 @@ export class Operator  {
   async store() {
     this._ensureSymbols();
 
+    // console.log('this.interval.binanceNotation: ', this.interval.binanceNotation);
     const elasticSearch = new ElasticSearch(
       this.symbols,
-      this.interval.binanceInterval,
-      this.startTime
+      this.interval.binanceNotation
     );
 
     await elasticSearch.clearData();
-
     await this._run(this.symbols, this.interval.binanceNotation, elasticSearch);
   }
 

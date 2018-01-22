@@ -14,6 +14,7 @@ export class Binance {
 
 
   ping() {
+    console.log('Pinging Binance Api');
     return axios.get(URL_BASE+'/api/v1/ping', {
       headers,
     }).catch((error) => {

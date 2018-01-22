@@ -39,7 +39,7 @@ export class Purchaser {
     this.stopSellAt = this.initialPrice -
                           (this.initialPrice * (SELL_STEP * 2));
     // todo cs: hit the API to set this stop limit order.
-    //
+
 
   }
 
